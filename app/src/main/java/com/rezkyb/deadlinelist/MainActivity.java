@@ -1,31 +1,37 @@
 package com.rezkyb.deadlinelist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<Deadline> deadlines;
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView rvDeadline = (RecyclerView)findViewById(R.id.rvDeadline);
+        MainFragment MainFragment = new MainFragment();
+        fragmentTransaction.replace(
+                android.R.id.content, MainFragment);
 
-        deadlines = Deadline.createDeadlineList(2);
-
-        DeadlineAdapter adapter = new DeadlineAdapter(deadlines);
-
-        rvDeadline.setAdapter(adapter);
-        rvDeadline.setLayoutManager(new LinearLayoutManager(this));
-
-
+        fragmentTransaction.commit();
     }
+
+
+    public void addDeadline(View view) {
+        startActivity(new Intent("com.rezkyb.deadlinelist.AddDeadlineActivity"));
+    }
+
 }
