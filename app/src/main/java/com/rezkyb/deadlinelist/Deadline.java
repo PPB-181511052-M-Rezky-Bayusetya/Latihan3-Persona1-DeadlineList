@@ -24,16 +24,5 @@ public class Deadline {
     public String getDate() {
         return mDeadlineDate;
     }
-
-    public static ArrayList<Deadline> createDeadlineList(int numDeadline) {
-        ArrayList<Deadline> deadlineArrayList = new ArrayList<Deadline>();
-
-        deadlineArrayList.add(new Deadline("PPB1","Tugas Recycler View","2 Maret 2020"));
-        deadlineArrayList.add(new Deadline("Proyek 4","Sprint 2","3 Maret 2020"));
-        deadlineArrayList.add(new Deadline("PPL1","Tugas Refactor","5 Maret 2020"));
-
-
-        return deadlineArrayList;
-    }
 }
 

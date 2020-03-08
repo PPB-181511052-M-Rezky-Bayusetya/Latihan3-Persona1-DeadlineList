@@ -57,14 +57,10 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
 
         TextView deadlineDate = viewHolder.deadlineDate;
         deadlineDate.setText(deadlines.getDate());
-
-
     }
 
     @Override
     public int getItemCount() {
         return mDeadline.size();
     }
-
-
 }
