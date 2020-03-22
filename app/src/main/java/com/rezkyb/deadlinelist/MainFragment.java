@@ -1,7 +1,9 @@
 package com.rezkyb.deadlinelist;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +22,33 @@ import static com.rezkyb.deadlinelist.MainActivity.*;
 public class MainFragment extends Fragment {
     public ArrayList<Deadline> deadlines;
     public DeadlineAdapter adapter;
-    String NameFromIntent1;
-    String DetailFromIntent1;
-    String DateFromIntent1;
+    private Context context;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-  }
+
+    }
+
+    public ArrayList<Deadline> createDeadlineList() {
+        context = getActivity();
+        DatabaseAdapter db = new DatabaseAdapter(context);
+        String Nama;
+        String Details;
+        String Date;
+
+        db.open();
+        Cursor c = db.getAllData();
+        if(c.moveToFirst()){
+            do{
+                Nama=c.getString(1);
+                Details=c.getString(2);
+                Date=c.getString(3);
+                deadlineArrayList.add(new Deadline(Nama,Details,Date));
+            }while (c.moveToNext());
+        }
+        return deadlineArrayList;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,7 +56,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
         RecyclerView rvDeadline = view.findViewById(R.id.rvDeadline);
 
-        deadlines = MainActivity.createDeadlineList();
+        deadlines = createDeadlineList();
 
         adapter = new DeadlineAdapter(deadlines);
 

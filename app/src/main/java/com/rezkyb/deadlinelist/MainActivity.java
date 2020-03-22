@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     String NameFromIntent1;
     String DetailFromIntent1;
     String DateFromIntent1;
-
+    DatabaseAdapter db = new DatabaseAdapter(this);
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -27,16 +28,6 @@ public class MainActivity extends AppCompatActivity {
     Intent data = new Intent("com.rezkyb.deadlinelist.AddDeadlineActivity");
 
     static ArrayList<Deadline> deadlineArrayList = new ArrayList<Deadline>();
-
-    public static ArrayList<Deadline> createDeadlineList() {
-
-        deadlineArrayList.add(new Deadline("PPB1","Tugas Recycler View","2 Maret 2020"));
-        deadlineArrayList.add(new Deadline("Proyek 4","Sprint 2","3 Maret 2020"));
-        deadlineArrayList.add(new Deadline("PPL1","Tugas Refactor","5 Maret 2020"));
-
-        return deadlineArrayList;
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, NameFromIntent1, Toast.LENGTH_LONG).show();
                 Toast.makeText(this, DetailFromIntent1, Toast.LENGTH_LONG).show();
                 Toast.makeText(this, DateFromIntent1, Toast.LENGTH_LONG).show();
+                db.open();
+                db.insertData(NameFromIntent1,DetailFromIntent1,DateFromIntent1);
+                db.close();
                 deadlineArrayList.add(new Deadline(NameFromIntent1,DetailFromIntent1,DateFromIntent1));
             }
         }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
         public TextView deadlineName;
         public TextView deadlineDetails;
         public TextView deadlineDate;
+        public Button removeButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -24,6 +26,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
             deadlineName = (TextView) itemView.findViewById(R.id.deadline_name);
             deadlineDetails = (TextView) itemView.findViewById(R.id.deadline_details);
             deadlineDate = (TextView) itemView.findViewById(R.id.deadline_date);
+            removeButton = (Button) itemView.findViewById(R.id.remove_button);
         }
     }
 
@@ -46,7 +49,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DeadlineAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull DeadlineAdapter.ViewHolder viewHolder, final int position) {
         Deadline deadlines = mDeadline.get(position);
 
         TextView deadlineName = viewHolder.deadlineName;
@@ -57,6 +60,17 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
 
         TextView deadlineDate = viewHolder.deadlineDate;
         deadlineDate.setText(deadlines.getDate());
+
+        Button removeButton = viewHolder.removeButton;
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDeadline.get(position);
+                mDeadline.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position,mDeadline.size());
+            }
+        });
     }
 
     @Override
